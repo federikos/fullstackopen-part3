@@ -48,6 +48,12 @@ app.get('/api/persons/:id', (req, res) => {
   }
 })
 
+app.post('/api/persons', (req, res) => {
+  const person = req.body;
+  const createId = () => Math.round(Math.random() * (99999 - 10000) + 10000); //random integer from 10000 to 99999
+  persons = persons.concat({...person, id: createId()})
+})
+
 const port = 3001
 app.listen(port, () => {
   console.log(`server running on port ${port}`)
