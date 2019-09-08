@@ -44,13 +44,27 @@ app.get('/api/persons/:id', (req, res) => {
   if (contact) {
     res.json(contact)
   } else {
-    response.status(404).end()
+    res.status(404).end()
   }
 })
 
 app.post('/api/persons', (req, res) => {
   const person = req.body;
+  console.log(person)
   const createId = () => Math.round(Math.random() * (99999 - 10000) + 10000); //random integer from 10000 to 99999
+  
+  if (!person.name) {
+    return res.status(400).json({error: 'name missing'})
+  }
+
+  if (!person.number) {
+    return res.status(400).json({error: 'number missing'})
+  }
+
+  if (persons.find(contact => contact.name === person.name)) {
+    return res.status(400).json({error: 'name must be unique'})
+  }
+  
   persons = persons.concat({...person, id: createId()})
 })
 
