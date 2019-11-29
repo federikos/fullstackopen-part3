@@ -65,7 +65,7 @@ app.delete('/api/persons/:id', (req, res) => {
 app.post('/api/persons', (req, res) => {
   const person = req.body;
   console.log(person)
-  const createId = () => Math.round(Math.random() * (99999 - 10000) + 10000); //random integer from 10000 to 99999
+  const createId = () => Math.floor(Math.random() * (999999 - 10)) + 10; //random integer from 10 to 999999
   
   if (!person.name) {
     return res.status(400).json({error: 'name missing'})
