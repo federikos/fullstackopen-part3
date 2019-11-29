@@ -11,6 +11,7 @@ morgan.token('body', req => {
 })
 
 app.use(cors())
+app.use(express.static('build'))
 app.use(bodyParser.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
@@ -41,7 +42,7 @@ app.get('/api/persons', (req, res) => {
   res.json(persons)
 })
 
-app.get('/info', (req, res) => {
+app.get('/api/info', (req, res) => {
   res.send(`
     <p>Phonebook has info for ${persons.length} people</p>
     ${new Date()}
@@ -66,7 +67,6 @@ app.delete('/api/persons/:id', (req, res) => {
 
 app.post('/api/persons', (req, res) => {
   const person = req.body;
-  console.log(person)
   const createId = () => Math.floor(Math.random() * (999999 - 10)) + 10; //random integer from 10 to 999999
   
   if (!person.name) {
@@ -82,6 +82,7 @@ app.post('/api/persons', (req, res) => {
   }
 
   persons = persons.concat({...person, id: createId()})
+  return res.json(person)
 })
 
 const PORT = process.env.PORT || 3001
