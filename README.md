@@ -1,1 +1,1 @@
-Deployed app you can find [here](https://thawing-lowlands-39376.herokuapp.com/api/persons "Fullstackopen, part 3, assignment #3.10").
+Deployed app you can find [here](https://thawing-lowlands-39376.herokuapp.com/ "Fullstackopen, part 3, assignment #3.10").
