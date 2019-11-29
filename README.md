@@ -1,0 +1,1 @@
+Deployed app you can find [here](http://example.com/ "Fullstackopen, part 3, assignment #3.10").
