@@ -26,25 +26,24 @@ app.get('/api/persons', (req, res, next) => {
 })
 
 app.get('/api/info', (req, res, next) => {
-  Person.find({})
-    .then(persons => {
+  Person.countDocuments({})
+    .then(count => {
       res.send(`
-        <p>Phonebook has info for ${persons.length} people</p>
+        <p>Phonebook has info for ${count} people</p>
         ${new Date()}
       `);
     })
   .catch(err => next(err))
 })
 
-// app.get('/api/persons/:id', (req, res) => {
-//   const id = Number(req.params.id);
-//   const contact = persons.find(person => person.id === id);
-//   if (contact) {
-//     res.json(contact)
-//   } else {
-//     res.status(404).end()
-//   }
-// })
+app.get('/api/persons/:id', (req, res, next) => {
+  const id = req.params.id;
+  Person.findById(id)
+    .then(findPerson => {
+      res.json(findPerson.toJSON())
+    })
+    .catch(err => next(err))
+})
 
 app.delete('/api/persons/:id', (req, res, next) => {
   Person.findByIdAndRemove(req.params.id)
@@ -56,7 +55,7 @@ app.delete('/api/persons/:id', (req, res, next) => {
 
 app.put('/api/persons/:id', (req, res, next) => {
   const person = req.body;
-  
+
   Person.findByIdAndUpdate(req.params.id, person, { new: true })
     .then(updatedPerson => {
       res.json(updatedPerson.toJSON())
