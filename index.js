@@ -19,15 +19,17 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :b
 
 app.get('/api/persons', (req, res) => {
   Person.find({}).then(persons => {
-    res.json(persons)
+    res.json(persons);
   })
 })
 
 app.get('/api/info', (req, res) => {
-  res.send(`
-    <p>Phonebook has info for ${persons.length} people</p>
-    ${new Date()}
-  `)
+  Person.find({}).then(persons => {
+    res.send(`
+      <p>Phonebook has info for ${persons.length} people</p>
+      ${new Date()}
+    `);
+  })
 })
 
 app.get('/api/persons/:id', (req, res) => {
@@ -48,8 +50,7 @@ app.delete('/api/persons/:id', (req, res) => {
 
 app.post('/api/persons', (req, res) => {
   const person = req.body;
-  const createId = () => Math.floor(Math.random() * (999999 - 10)) + 10; //random integer from 10 to 999999
-  
+
   if (!person.name) {
     return res.status(400).json({error: 'name missing'})
   }
@@ -57,13 +58,16 @@ app.post('/api/persons', (req, res) => {
   if (!person.number) {
     return res.status(400).json({error: 'number missing'})
   }
+    
+  const newPerson = new Person({
+    name: person.name,
+    number: person.number,
+  });
 
-  if (persons.find(contact => contact.name === person.name)) {
-    return res.status(400).json({error: 'name must be unique'})
-  }
-
-  persons = persons.concat({...person, id: createId()})
-  return res.json(person)
+  newPerson.save().then(person => {
+    console.log(`added ${person.name} number ${person.number} to phonebook`);
+    res.json(person);
+  })
 })
 
 const PORT = process.env.PORT || 3001
