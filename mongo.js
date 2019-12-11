@@ -24,18 +24,18 @@ if (name && number) {
   const person = new Person({
     name,
     number,
-  })
+  });
   
   person.save().then(res => {
     console.log(`added ${res.name} number ${res.number} to phonebook`);
     mongoose.connection.close();
-  })
+  });
 }
 
 if (!name && !number) {
   Person.find({}).then(res => {
     console.log('phonebook:');
-    res.forEach(person => console.log(`${person.name} ${person.number}`))
+    res.forEach(person => console.log(`${person.name} ${person.number}`));
     mongoose.connection.close();
-  })
+  });
 }

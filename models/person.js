@@ -11,7 +11,7 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
   })
   .catch(err => {
     console.log('error connecting to MongoDB', err);
-  })
+  });
 
 const personSchema = new mongoose.Schema({
   name: { type: String, minlength: 3, unique: true},
@@ -26,6 +26,6 @@ personSchema.set('toJSON', {
     delete returnedObject._id;
     delete returnedObject.__v;
   }
-})
+});
 
 module.exports = mongoose.model('Person', personSchema);
