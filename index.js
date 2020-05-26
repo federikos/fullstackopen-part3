@@ -40,7 +40,11 @@ app.get('/api/persons/:id', (req, res, next) => {
   const id = req.params.id;
   Person.findById(id)
     .then(findPerson => {
-      res.json(findPerson.toJSON());
+      if (findPerson) {
+        res.json(findPerson.toJSON());
+      } else {
+        res.status(404).end();
+      }
     })
     .catch(err => next(err));
 });
